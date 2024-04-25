@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Pending Title</title>
+        <link rel="stylesheet" href="/css/styles.css">
+    </head>
+    <h1 class="center text">
+        [COMP 426 Final Project]
+    </h1>
+    <div id="create-account-box">
+        <div class="white center text">
+            Create New Account
+        </div>
+        <table class="table-styling">
+            <tr>
+                <form action="/create_account" method="POST">
+                <td style="font-size: 20px;">Username:</td>
+                <td>
+                    <div>
+                        <input name="username">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 20px;">Password:</td>
+                <td>
+                    <div>
+                        <input type="password" name="password">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 20px;">Re-type password:</td>
+                <td>
+                    <div>
+                        <input type="password" name="re_typed_password">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="center" style="margin-top: 15px;">
+            <button id="sign-in-button">Create Account</button>
+        </div>
+    </div>
+</html>
