@@ -75,7 +75,7 @@ body {
 }
 
 .log-in {
-    position: fixed;
+    position: absolute;
     top: 0px;
     right: 50px;
 }
