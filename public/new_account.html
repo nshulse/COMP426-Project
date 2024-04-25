@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>Pending Title</title>
         <link rel="stylesheet" href="/public/css/styles.css">
+        <script type="module" src="./create_account.js"></script>
     </head>
     <h1 class="center text">
         [COMP 426 Final Project]
@@ -18,7 +19,7 @@
                 <td style="font-size: 20px;">Username:</td>
                 <td>
                     <div>
-                        <input name="username">
+                        <input name="username" id="username_newacct">
                     </div>
                 </td>
             </tr>
@@ -26,7 +27,7 @@
                 <td style="font-size: 20px;">Password:</td>
                 <td>
                     <div>
-                        <input type="password" name="password">
+                        <input type="password" name="password" id="pass_newacct">
                     </div>
                 </td>
             </tr>
@@ -34,13 +35,13 @@
                 <td style="font-size: 20px;">Re-type password:</td>
                 <td>
                     <div>
-                        <input type="password" name="re_typed_password">
+                        <input type="password" name="re_typed_password" id="pass_retype_newacct">
                     </div>
                 </td>
             </tr>
         </table>
         <div class="center" style="margin-top: 15px;">
-            <button id="sign-in-button">Create Account</button>
+            <button id="create-button">Create Account</button>
         </div>
     </div>
 </html>

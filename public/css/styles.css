@@ -74,6 +74,16 @@ body {
     cursor: pointer;
 }
 
+#create-button {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 16px;
+    background-color: beige;
+    border-width: 0px;
+    border-radius: 5px;
+    padding: 4px;
+    cursor: pointer;
+}
+
 .log-in {
     position: absolute;
     top: 0px;
