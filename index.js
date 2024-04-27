@@ -50,7 +50,8 @@ app.post('/sign_in', (req, res) => {
 
     
 
-    res.sendFile(__dirname + '/public' + '/login.html')
+    //res.sendFile(__dirname + '/public' + '/login.html')
+    res.redirect("/login.html")
 })
 
 
@@ -81,7 +82,8 @@ app.post('/create_account', (req, res) => {
         })
     }
 
-    res.sendFile(__dirname + '/public' + '/new_account.html')
+    //res.sendFile(__dirname + '/public' + '/new_account.html')
+    res.redirect("/new_account.html")
 })
 
 // test function which returns all the accounts in database
