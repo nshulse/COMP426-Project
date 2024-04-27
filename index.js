@@ -56,36 +56,45 @@ app.post('/sign_in', (req, res) => {
 
 
 app.post('/create_account', (req, res) => {
-    let username = req.body.username
-    let password = req.body.password
-    let re_typed_password = req.body.re_typed_password
+    let username = req.body.username;
+    let password = req.body.password;
+    let re_typed_password = req.body.re_typed_password;
 
     if (password !== re_typed_password) {
-        //TODO: send error
-        console.log("passwords do not match")
-    }
-    else {
-
-    knex("accounts").where("username", username)
-        .then((data) => {
-            if (data[0]) {
-                //TODO: Raise error
-                console.log("username already exists error")
-                
-            }
-            else {
-                knex("accounts").insert({username: username, password: password})
-                    .then((data) => {
-                        console.log('Account creation success');
-                        //res.status(201).json(data)
-                    });
+        // Passwords do not match, send error
+        console.log("Passwords do not match");
+        // Redirect back to the new_account page
+        return res.redirect("/new_account.html");
+    } else {
+        knex("accounts").where("username", username)
+            .then((data) => {
+                if (data[0]) {
+                    // Username already exists, raise error
+                    console.log("Username already exists error");
+                    // Redirect back to the new_account page
+                    return res.redirect("/new_account.html");
+                } else {
+                    knex("accounts").insert({ username: username, password: password })
+                        .then((data) => {
+                            console.log('Account creation success');
+                            // Redirect to the login page
+                            return res.redirect("/login.html");
+                        })
+                        .catch((err) => {
+                            console.error("Error creating account:", err);
+                            // Redirect back to the new_account page
+                            return res.redirect("/new_account.html");
+                        });
                 }
-        })
+            })
+            .catch((err) => {
+                console.error("Database error:", err);
+                // Redirect back to the new_account page
+                return res.redirect("/new_account.html");
+            });
     }
+});
 
-    //res.sendFile(__dirname + '/public' + '/new_account.html')
-    res.redirect("/new_account.html")
-})
 
 // test function which returns all the accounts in database
 app.get('/test', (req, res) => {
