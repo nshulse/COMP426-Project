@@ -76,6 +76,7 @@ app.post('/create_account', (req, res) => {
             else {
                 knex("accounts").insert({username: username, password: password})
                     .then((data) => {
+                        console.log('Account creation success');
                         //res.status(201).json(data)
                     });
                 }
