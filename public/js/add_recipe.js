@@ -1,3 +1,4 @@
+// add_recipe.js
 const recipeForm = document.getElementById('recipeForm');
 
 recipeForm.addEventListener('submit', (event) => {
@@ -13,7 +14,8 @@ recipeForm.addEventListener('submit', (event) => {
     .then(response => {
         if (response.ok) {
             console.log('Recipe added successfully');
-            window.location.href = '/featured.html';
+            // Redirect or perform any other action upon successful addition
+            window.location.href = '/featured.html'; // Redirect to featured page
         } else {
             console.error('Failed to add recipe');
         }

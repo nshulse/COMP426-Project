@@ -11,8 +11,9 @@ const knex = require('knex')({
 const app = express()
 const port = 3000
 const path = require('path')
+const multer = require('multer');
 let savedRecipes = []
-let UserDataStuff = []
+let userRecipes = []
 app.use(express.static(path.join(__dirname, '/public')))
 
 app.use(express.urlencoded({ extended: true }))
@@ -71,6 +72,9 @@ app.post('/sign_in', (req, res) => {
     res.redirect("/login.html")
 })
 
+app.get('/user_recipes', (req, res) => {
+    res.json({ recipes: userRecipes });
+});
 
 app.post('/create_account', (req, res) => {
     let username = req.body.username
@@ -104,8 +108,12 @@ app.post('/create_account', (req, res) => {
     res.redirect("/new_account.html")
 })
 
-app.post('/add_recipe', (req, res) => {
-    const { title, summary, description, ingredients, instructions, imageUrl } = req.body;
+const upload = multer({ dest: path.join(__dirname, 'public', 'uploads') });
+
+app.use(express.static('public'));
+app.post('/add_recipe', upload.single('image'), (req, res) => {
+    const { title, summary, description, ingredients, instructions } = req.body;
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
     const newRecipe = {
         title,
         summary,
@@ -114,7 +122,7 @@ app.post('/add_recipe', (req, res) => {
         instructions,
         imageUrl
     };
-    UserDataStuff.push(newRecipe);
+    userRecipes.push(newRecipe);
     console.log('New recipe added:', newRecipe);
     res.sendStatus(200);
 });
