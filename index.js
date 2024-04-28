@@ -12,7 +12,7 @@ const app = express()
 const port = 3000
 const path = require('path')
 let savedRecipes = []
-
+let UserDataStuff = []
 app.use(express.static(path.join(__dirname, '/public')))
 
 app.use(express.urlencoded({ extended: true }))
@@ -103,6 +103,21 @@ app.post('/create_account', (req, res) => {
     //res.sendFile(__dirname + '/public' + '/new_account.html')
     res.redirect("/new_account.html")
 })
+
+app.post('/add_recipe', (req, res) => {
+    const { title, summary, description, ingredients, instructions, imageUrl } = req.body;
+    const newRecipe = {
+        title,
+        summary,
+        description,
+        ingredients,
+        instructions,
+        imageUrl
+    };
+    UserDataStuff.push(newRecipe);
+    console.log('New recipe added:', newRecipe);
+    res.sendStatus(200);
+});
 
 // test function which returns all the accounts in database
 app.get('/test', (req, res) => {
