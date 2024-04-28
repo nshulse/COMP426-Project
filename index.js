@@ -21,7 +21,9 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public' + '/index.html')
 })
 
-
+app.get('/featured.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/featured.html'));
+});
 
 app.post('/sign_in', (req, res) => {
     let username = req.body.username
