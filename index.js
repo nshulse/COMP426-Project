@@ -65,6 +65,7 @@ app.post('/create_account', (req, res) => {
     if (password !== re_typed_password) {
         //TODO: send error
         console.log("passwords do not match")
+        return res.redirect("/new_account.html")
     }
     else {
 
@@ -73,21 +74,33 @@ app.post('/create_account', (req, res) => {
             if (data[0]) {
                 //TODO: Raise error
                 console.log("username already exists error")
-                
+                return res.redirect("/new_account.html")
             }
             else {
                 knex("accounts").insert({username: username, password: password})
                     .then((data) => {
                         console.log('Account creation success');
+                        return res.redirect("/login.html")
                         //res.status(201).json(data)
+                    })
+                    .catch((err) => {
+                        console.error("Error creating account:", err);
+                        // Redirect back to the new_account page
+                        return res.redirect("/new_account.html");
                     });
-                }
+            }
         })
-    }
-
+        .catch((err) => {
+            
+            console.error("Database error:", err);
+            // Redirect back to the new_account page
+            return res.redirect("/new_account.html");
+        });
+}
+});
     //res.sendFile(__dirname + '/public' + '/new_account.html')
-    res.redirect("/new_account.html")
-})
+
+
 
 // test function which returns all the accounts in database
 app.get('/test', (req, res) => {
