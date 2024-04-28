@@ -1,4 +1,5 @@
 const featuredRecipesElement = document.getElementById('featured_list');
+const userRecipesElement = document.getElementById('user-recipes-list');
 
 const saveRecipe = (recipeId) => {
   fetch(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=244f92f2232c4a6f9a98fa49e12d3ba0`)
@@ -55,3 +56,25 @@ const savedRecipesButton = document.createElement('button');
 savedRecipesButton.textContent = 'My Saved Recipes';
 savedRecipesButton.addEventListener('click', goToSavedPage);
 featuredRecipesElement.appendChild(savedRecipesButton);
+
+
+fetch('/user_recipes') // Assuming this endpoint returns user-added recipes
+    .then(response => response.json())
+    .then(data => {
+        data.recipes.forEach(recipe => {
+            const recipeElement = document.createElement('div');
+            recipeElement.classList.add('recipe');
+            recipeElement.innerHTML = `
+                <h2>${recipe.title}</h2>
+                <p>${recipe.summary}</p>
+                <img src="${recipe.imageUrl}" alt="${recipe.title}" />
+                <p>${recipe.description}</p>
+                <p><strong>Ingredients:</strong> ${recipe.ingredients}</p>
+                <p><strong>Instructions:</strong> ${recipe.instructions}</p>
+            `;
+            userRecipesElement.appendChild(recipeElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching user recipes:', error);
+    });
