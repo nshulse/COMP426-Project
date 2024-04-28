@@ -2,25 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Pending Title</title>
+    <title>Home</title>
     <link rel="stylesheet" href="/css/styles.css" />
+    <script type="module" src="js/featured.js"></script>
   </head>
   <body>
-    <div class="menu">
-      <ul class="title">
-        <li>[COMP 426 Final Project]</li>
-      </ul>
-      <ul class="log-in">
-        <li><a href="login.html" class="log-in-button">Log-In</a></li>
-      </ul>
-      <ul class="featured">
-        <li>
-          <a href="featured.html" class="featured-button">Featured Recipes</a>
-        </li>
-      </ul>
-      <ul class="saved">
-        <li><a href="saved.html" class="saved-button">My Saved Recipes</a></li>
-      </ul>
+    <div class="container">
+      <div class="menu">
+        <ul class="title">
+          <li style="font-weight: bold;">RecipeRealm</li>
+          <!-- <li>
+            <a href="featured.html" class="featured-button">Featured Recipes</a>
+          </li> -->
+        </ul>
+        <ul class="log-in">
+          <li><a href="login.html" class="log-in-button">Log-In</a></li>
+        </ul>
+      </div>
     </div>
+    <h1 class="center text">Welcome to RecipeRealm!</h1>
+    <h4 class="center text">Where nutriotional eating meets culinary creativity!</h4>
+    <h2 class="center text">About</h2>
+    <h4 class="center text" style="font-weight: normal; margin-left: 15em; margin-right: 15em;">We at RecipeRealm believe that nutritious food should not only feed our bodies with healthy nutrients, but it should also satisfy our taste buds.
+     That's why RecipeRealm is more than simply a repository for nutritional foods, it serves as a way for food enthusiasts to share their ideas and their joy for cooking nutritional foods.
+     Join our growing community today and transform the way you cook healthy recipes!</h4>
+    <h2 class="center text">Featured Recipes</h2>
+    <div id="featured_list"></div>
   </body>
 </html>
