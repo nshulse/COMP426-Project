@@ -72,9 +72,15 @@ app.post('/sign_in', (req, res) => {
     //res.sendFile(__dirname + '/public' + '/login.html')
     //res.redirect("/login.html")
 })
-
+//This API is used to get a list of all recipes that users have added
 app.get('/user_recipes', (req, res) => {
     res.json({ recipes: userRecipes });
+});
+//This API is used to get a list of all recipes the currntly logged in user has added. I using a stub implementiaton for now since the backend is not ready yet - Niyaz.
+app.get('/my_recipes', (req, res) => {
+    //let myRecipes = UserDataStuff.filter(recipe => recipe.userId === req.session.userId);
+    let myRecipes = userRecipes;
+    res.json({ recipes: myRecipes });
 });
 
 app.post('/create_account', (req, res) => {
@@ -110,10 +116,26 @@ app.post('/create_account', (req, res) => {
 })
 
 const upload = multer({ dest: path.join(__dirname, 'public', 'uploads') });
-
 app.use(express.static('public'));
 app.post('/add_recipe', upload.single('image'), (req, res) => {
-    const { title, summary, description, ingredients, instructions } = req.body;
+    console.log(req.body);
+    const { title, summary, description, instructions } = req.body;
+    const ingredients = [];
+
+    if (!Array.isArray(req.body.ingredientName)) {
+        req.body.ingredientName = [req.body.ingredientName];
+        req.body.ingredientPortion = [req.body.ingredientPortion];
+        req.body.ingredientUnit = [req.body.ingredientUnit];
+      }
+    
+      for (let i = 0; i < req.body.ingredientName.length; i++) {
+        const ingredient = {
+          name: req.body.ingredientName[i],
+          portion: req.body.ingredientPortion[i],
+          unit: req.body.ingredientUnit[i]
+        };
+        ingredients.push(ingredient);
+      }
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
     const newRecipe = {
         title,

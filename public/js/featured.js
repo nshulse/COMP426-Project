@@ -58,23 +58,29 @@ savedRecipesButton.addEventListener('click', goToSavedPage);
 featuredRecipesElement.appendChild(savedRecipesButton);
 
 
-fetch('/user_recipes') // Assuming this endpoint returns user-added recipes
-    .then(response => response.json())
-    .then(data => {
-        data.recipes.forEach(recipe => {
-            const recipeElement = document.createElement('div');
-            recipeElement.classList.add('recipe');
-            recipeElement.innerHTML = `
-                <h2>${recipe.title}</h2>
-                <p>${recipe.summary}</p>
-                <img src="${recipe.imageUrl}" alt="${recipe.title}" />
-                <p>${recipe.description}</p>
-                <p><strong>Ingredients:</strong> ${recipe.ingredients}</p>
-                <p><strong>Instructions:</strong> ${recipe.instructions}</p>
-            `;
-            userRecipesElement.appendChild(recipeElement);
+fetch('/user_recipes')
+  .then(response => response.json())
+  .then(data => {
+      data.recipes.forEach(recipe => {
+        const recipeElement = document.createElement('div');
+        recipeElement.classList.add('recipe');
+        let ingredientsHTML = '<strong>Ingredients:</strong><ul>';
+        recipe.ingredients.forEach(ingredient => {
+            ingredientsHTML += `<li>${ingredient.name}: ${ingredient.portion} ${ingredient.unit}</li>`;
         });
-    })
-    .catch(error => {
-        console.error('Error fetching user recipes:', error);
+        ingredientsHTML += '</ul>';
+    
+        recipeElement.innerHTML = `
+            <h2>${recipe.title}</h2>
+            <p>${recipe.summary}</p>
+            <img src="${recipe.imageUrl}" alt="${recipe.title}" />
+            <p>${recipe.description}</p>
+            <p>${ingredientsHTML}</p>
+            <p><strong>Instructions:</strong> ${recipe.instructions}</p>
+        `;
+        userRecipesElement.appendChild(recipeElement);
     });
+  })
+  .catch(error => {
+      console.error('Error fetching user recipes:', error);
+  });
