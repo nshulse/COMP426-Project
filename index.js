@@ -50,6 +50,7 @@ app.post('/sign_in', (req, res) => {
                 if (data[0]["password"] === password) {
                     // TODO: Log user in
                     console.log("log in")
+                    res.redirect('/user_home.html');
                 }
                 else {
                     //TODO: Incorrect password
@@ -68,7 +69,7 @@ app.post('/sign_in', (req, res) => {
     
 
     //res.sendFile(__dirname + '/public' + '/login.html')
-    res.redirect("/login.html")
+    //res.redirect("/login.html")
 })
 
 
@@ -94,6 +95,7 @@ app.post('/create_account', (req, res) => {
                 knex("accounts").insert({username: username, password: password})
                     .then((data) => {
                         console.log('Account creation success');
+                        res.redirect('/login.html');
                         //res.status(201).json(data)
                     });
                 }
@@ -101,7 +103,6 @@ app.post('/create_account', (req, res) => {
     }
 
     //res.sendFile(__dirname + '/public' + '/new_account.html')
-    res.redirect("/new_account.html")
 })
 
 // test function which returns all the accounts in database
