@@ -1,14 +1,29 @@
 const addIngredientButton = document.getElementById('add-ingredient');
+const removeIngredientButton = document.getElementById('remove-ingredient');
 const ingredientsContainer = document.getElementById('ingredients-container');
+const border = document.getElementById('create-recipe-box');
+let height_px = 800
+border.style.height = height_px + 'px';
 
 addIngredientButton.addEventListener('click', () => {
     const ingredientField = document.createElement('div');
+    ingredientField.style = 'display: flex; align-items: center; justify-content: center;';
     ingredientField.innerHTML = `
         <input type="text" name="ingredientName" placeholder="Ingredient Name" required>
         <input type="number" name="ingredientPortion" placeholder="Portion">
         <input type="text" name="ingredientUnit" placeholder="Unit">
     `;
+    height_px += 22;
+    border.style.height = height_px + 'px';
     ingredientsContainer.appendChild(ingredientField);
+});
+
+removeIngredientButton.addEventListener('click', () => {
+  if(ingredientsContainer.children.length > 1){
+    ingredientsContainer.removeChild(ingredientsContainer.lastChild);
+    height_px -= 22;
+    border.style.height = height_px + 'px';
+  }
 });
 
 const recipeForm = document.getElementById('recipeForm');
