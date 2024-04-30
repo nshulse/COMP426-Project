@@ -13,12 +13,12 @@ fetch('/my_recipes')
             }
             ing_text = ing_text.join("; ");
             recipeElement.innerHTML = `
-                <h2>${recipe.title}</h2>
-                <p><strong>Summary:</strong> ${recipe.summary}</p>
+                <h2 style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">${recipe.title}</h2>
+                <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Summary:</strong> ${recipe.summary}</p>
                 <img src="${recipe.imageUrl}" alt="${recipe.title}" width = "300" />
-                <p><strong>Description:</strong> ${recipe.description}</p>
-                <p><strong>Ingredients:</strong> ${ing_text}</p>
-                <p><strong>Instructions:</strong> ${recipe.instructions}</p>
+                <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Description:</strong> ${recipe.description}</p>
+                <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Ingredients:</strong> ${ing_text}</p>
+                <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Instructions:</strong> ${recipe.instructions}</p>
             `;
             myRecipesListElement.appendChild(recipeElement);
         });
