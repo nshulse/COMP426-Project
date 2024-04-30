@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <title>User Home</title>
     <link rel="stylesheet" href="/css/styles.css" />
+    <script>
+      window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const error = urlParams.get('error');
+      console.log(error)
+      if (error === 'already_saved') {
+          alert("Recipe is already saved.");
+      }
+  };
+  </script>
     <script type="module" src="js/user_home.js"></script>
   </head>
   <body>
