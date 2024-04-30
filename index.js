@@ -75,7 +75,7 @@ app.post('/add_saved_recipe', (req, res) => {
 
     let already_saved
     
-    knex("saved_recipes").where("recipe_id", recipe_id)
+    knex("saved_recipes").where("user_id", logged_in_user_id).where("recipe_id", recipe_id)
         .then((data) => {
             if (data[0]) {
                 console.log("already saved")
@@ -119,7 +119,7 @@ app.get('/user_recipes', (req, res) => {
 app.get('/my_recipes', (req, res) => {
     //let myRecipes = UserDataStuff.filter(recipe => recipe.userId === req.session.userId);
 
-    knex.select().from("recipes").where("author_id", 1)
+    knex.select().from("recipes").where("author_id", logged_in_user_id)
         .then((data) => {
             res.status(201).json(data)
         })
