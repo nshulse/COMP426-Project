@@ -32,26 +32,20 @@ const errorMessage = document.getElementById('errorMessage');
 recipeForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(recipeForm);
-
+  
     fetch('/add_recipe', {
-        method: 'POST',
-        body: formData
+      method: 'POST',
+      body: formData
     })
     .then(response => {
-        if (response.ok) {
-            console.log('Recipe added successfully');
-            window.location.href = '/my_recipes.html';
-        } else {
-            // Display error message if there's an error response from the server
-            response.text().then(message => {
-                errorMessage.textContent = message;
-                errorMessage.style.display = 'block';
-            });
-        }
+      if (response.ok) {
+        console.log('Recipe added successfully');
+        window.location.href = '/my_recipes.html';
+      } else {
+        console.error('Failed to add recipe');
+      }
     })
     .catch(error => {
-        console.error('Error adding recipe:', error);
-        errorMessage.textContent = 'An error occurred while adding the recipe. Please try again later.';
-        errorMessage.style.display = 'block';
+      console.error('Error adding recipe:', error);
     });
-});
+  });

@@ -21,7 +21,7 @@
     <h1 class="center text">Add Recipe</h1>
     <div id="create-recipe-box">
       <div id="add-recipe-form" style="margin-top: 10px;">
-        <form id="recipeForm">
+        <form id="recipeForm" enctype="multipart/form-data">
           <label for="title" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Title:</label><br />
           <div style="display: flex; align-items: center; justify-content: center;">
             <input type="text" id="title" required name="title"/><br />
@@ -46,7 +46,7 @@
           </div>
           <label for="image" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Image:</label><br />
           <div style="display: flex; align-items: center; justify-content: center;">
-            <input type="file" id="image" name="image" /><br /><br />
+            <input type="text" id="imageUrl" name="imageUrl"><br><br>
           </div>
           <div style="display: flex; align-items: center; justify-content: center;">
             <button type="submit" style="display: flex; align-items: center; justify-content: center;">Submit</button>

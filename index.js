@@ -143,7 +143,7 @@ const upload = multer({ dest: path.join(__dirname, 'public', 'uploads') });
 app.use(express.static('public'));
 app.post('/add_recipe', upload.single('image'), (req, res) => {
     console.log(req.body);
-    const { title, summary, description, instructions } = req.body;
+    const { title, summary, description, instructions, imageUrl } = req.body;
     let ingredients = [];
 
     if (!Array.isArray(req.body.ingredientName)) {
@@ -162,7 +162,6 @@ app.post('/add_recipe', upload.single('image'), (req, res) => {
       }
 
       ingredients = JSON.stringify(ingredients)
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
     const newRecipe = {
         title,
         summary,
