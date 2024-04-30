@@ -70,6 +70,33 @@ app.post('/sign_in', (req, res) => {
     //res.redirect("/login.html")
 })
 
+
+app.delete('/account', (req, res) => {
+    knex("accounts").where("id", logged_in_user_id).del()
+        .then((data) => {
+            res.status(201).json(data)
+        })
+})
+
+
+app.put('/account_username', (req, res) => {
+    let username = req.body.username
+    knex("accounts").where({"id": logged_in_user_id}).update({"username": username})
+        .then((data) => {
+            res.status(201).json(data)
+        })
+})
+
+app.put('/account_password', (req, res) => {
+    let password = req.body.password
+    knex("accounts").where({"id": logged_in_user_id}).update({"password": password})
+    .then((data) => {
+        res.status(201).json(data)
+    })
+})
+
+
+
 app.post('/add_saved_recipe', (req, res) => {
     let recipe_id = req.body.rec_id;
 
