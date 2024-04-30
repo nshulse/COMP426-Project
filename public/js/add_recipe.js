@@ -39,7 +39,7 @@ recipeForm.addEventListener('submit', (event) => {
   .then(response => {
     if (response.ok) {
       console.log('Recipe added successfully');
-      window.location.href = '/index.html';
+      window.location.href = '/my_recipes.html';
     } else {
       console.error('Failed to add recipe');
     }
