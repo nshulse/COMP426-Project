@@ -139,7 +139,7 @@ app.use(express.static('public'));
 app.post('/add_recipe', upload.single('image'), (req, res) => {
     console.log(req.body);
     const { title, summary, description, instructions } = req.body;
-    const ingredients = [];
+    let ingredients = [];
 
     if (!Array.isArray(req.body.ingredientName)) {
         req.body.ingredientName = [req.body.ingredientName];
@@ -148,13 +148,15 @@ app.post('/add_recipe', upload.single('image'), (req, res) => {
       }
     
       for (let i = 0; i < req.body.ingredientName.length; i++) {
-        const ingredient = {
+        let ingredient = {
           name: req.body.ingredientName[i],
           portion: req.body.ingredientPortion[i],
           unit: req.body.ingredientUnit[i]
         };
         ingredients.push(ingredient);
       }
+
+      ingredients = JSON.stringify(ingredients)
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
     const newRecipe = {
         title,
@@ -164,12 +166,11 @@ app.post('/add_recipe', upload.single('image'), (req, res) => {
         instructions,
         imageUrl
     };
+
+    let author_id
     
     if(logged_in_user_id) {
-    knex("accounts").where("id", logged_in_user_id)
-        .then((data) => {
-            let author_id = logged_in_user_id
-        })
+        author_id = logged_in_user_id
     }
     else {
         author_id = null
