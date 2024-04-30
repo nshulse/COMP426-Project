@@ -46,6 +46,10 @@ fetch('/my_recipes')
             del.innerText = 'Delete Recipe';
             del.data = recipe;
 
+            del.addEventListener('click', () => {
+                window.location.href = 'recipe_delete.html';
+            });
+
             buttons.appendChild(update);
             buttons.appendChild(del)
 

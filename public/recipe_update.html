@@ -21,38 +21,39 @@
     <h1 class="center text">Edit Recipe</h1>
     <!-- TODO: Fix this site so that the textboxes contain info about the recipe before it was updated... -->
     <div id="create-recipe-box">
-      <div id="add-recipe-form" style="margin-top: 10px;">
-        <form id="recipeForm">
-          <label for="title" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Title:</label><br />
-          <div style="display: flex; align-items: center; justify-content: center;">
-            <input type="text" id="title" required name="title"/><br />
-          </div>
-          <label for="summary" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Summary:</label><br />
-          <div style="display: flex; align-items: center; justify-content: center;">
-            <textarea rows="10" cols="50" id="summary" name="summary" style="resize: none;"></textarea><br/> 
-          </div>
-          <label for="description" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Description:</label><br />
-          <div style="display: flex; align-items: center; justify-content: center;">
-            <textarea rows="10" cols="50" id="description" name="description" style="resize: none;"></textarea><br/> 
-          </div>
-          <label for="ingredients" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Ingredients:</label><br />
-          <div id="ingredients-container"></div>
-          <div style="display: flex; align-items: center; justify-content: center;">
-            <button type="button" id="add-ingredient" style="margin-right: 20px;">Add Ingredient</button><br />
-            <button type="button" id="remove-ingredient">Remove Ingredient</button><br />
-          </div>
-            <label for="instructions" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Instructions:<br></label>
-          <div style="display: flex; align-items: center; justify-content: center;">
-            <textarea rows="10" cols="50" id="instructions" name="instructions" style="resize: none;"></textarea><br/> 
-          </div>
-          <label for="image" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Image:</label><br />
-          <div style="display: flex; align-items: center; justify-content: center;">
-            <input type="file" id="image" name="image" /><br /><br />
-          </div>
-          <div style="display: flex; align-items: center; justify-content: center;">
-            <button type="submit" style="display: flex; align-items: center; justify-content: center;">Submit</button>
-          </div>
-        </form>
+        <div id="add-recipe-form" style="margin-top: 10px;">
+          <form id="recipeForm" enctype="multipart/form-data">
+            <label for="title" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Title:</label><br />
+            <div style="display: flex; align-items: center; justify-content: center;">
+              <input type="text" id="title" required name="title"/><br />
+            </div>
+            <label for="summary" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Summary:</label><br />
+            <div style="display: flex; align-items: center; justify-content: center;">
+              <textarea rows="10" cols="50" id="summary" name="summary" style="resize: none;"></textarea><br/> 
+            </div>
+            <label for="description" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Description:</label><br />
+            <div style="display: flex; align-items: center; justify-content: center;">
+              <textarea rows="10" cols="50" id="description" name="description" style="resize: none;"></textarea><br/> 
+            </div>
+            <label for="ingredients" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Ingredients:</label><br />
+            <div id="ingredients-container"></div>
+            <div style="display: flex; align-items: center; justify-content: center;">
+              <button type="button" id="add-ingredient" style="margin-right: 20px;">Add Ingredient</button><br />
+              <button type="button" id="remove-ingredient">Remove Ingredient</button><br />
+            </div>
+              <label for="instructions" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Instructions:<br></label>
+            <div style="display: flex; align-items: center; justify-content: center;">
+              <textarea rows="10" cols="50" id="instructions" name="instructions" style="resize: none;"></textarea><br/> 
+            </div>
+            <label for="image" style="display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Image URL:</label><br />
+            <div style="display: flex; align-items: center; justify-content: center;">
+              <input type="text" placeholder="URL" id="imageUrl" name="imageUrl"><br><br>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center;">
+              <button type="submit" style="display: flex; align-items: center; justify-content: center;">Submit</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </body>
