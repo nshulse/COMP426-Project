@@ -4,7 +4,8 @@ fetch('/user_recipes')
     .then(response => response.json())
     .then(data => {
         data.forEach(recipe => {
-            console.log(recipe.ingredients)
+            console.log(recipe.ingredients);
+            console.log(recipe.id);
             const recipeElement = document.createElement('div');
             recipeElement.classList.add('recipe');
             recipeElement.classList.add('my-recipe')
@@ -38,11 +39,17 @@ fetch('/user_recipes')
             save.data = recipe;
 
             save.addEventListener('click', () => {
-                if(save.innerText == 'Save Recipe'){
-                    save.innerText = 'Unsave Recipe';
-                } else {
-                    save.innerText = 'Save Recipe';
-                }
+                // TODO: Add Recipe To Saved Table
+                console.log(recipe.id);
+                fetch('/add_saved_recipe', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({rec_id: recipe.id})
+                  })
+                  .catch(error => {
+                    console.error('Error adding recipe:', error);
+                  });
+                recipeElement.style.display = 'none';
             });
 
             buttons.appendChild(save);

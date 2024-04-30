@@ -49,9 +49,9 @@ app.get('/saved.html', (req, res) => {
     res.sendStatus(200);
   });
 
-app.get('/saved_recipes', (req, res) => {
-    res.json({ recipes: savedRecipes });
-});
+// app.get('/saved_recipes', (req, res) => {
+//     res.json({ recipes: savedRecipes });
+// });
 
 app.post('/sign_in', (req, res) => {
     let username = req.body.username
@@ -87,6 +87,40 @@ app.post('/sign_in', (req, res) => {
     //res.sendFile(__dirname + '/public' + '/login.html')
     //res.redirect("/login.html")
 })
+
+//TODO: EDIT SO THAT WE HAVE THIS INSERT FOR A SPECIFIC USER
+app.post('/add_saved_recipe', (req, res) => {
+    let recipe_id = req.body.rec_id;
+    console.log(logged_in_user_id);
+    console.log(recipe_id);
+    const ins = {
+        user_id: 1,
+        recipe_id: recipe_id
+    }
+    console.log(ins);
+    knex("saved_recipes").insert(ins).then(() => {
+        res.status(201);
+    })
+});
+
+//TODO: EDIT SO THAT WE HAVE THIS INSERT FOR A SPECIFIC USER
+app.get('/saved_recipes', (req, res) => {
+    knex('saved_recipes').join('recipes', 'saved_recipes.recipe_id', '=', 'recipes.id')
+        .select("recipes.*")
+        .where('saved_recipes.user_id', "=", 'jrindla')
+        .then(recipes => {
+            res.status(200).json(recipes);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).send("Error retrieving saved recipes");
+        });
+});
+
+app.get('/unsaved_recipes', (req, res) => {
+
+});
+
 //This API is used to get a list of all recipes that users have added
 app.get('/user_recipes', (req, res) => {
     knex.select().from("recipes")
@@ -98,7 +132,7 @@ app.get('/user_recipes', (req, res) => {
 app.get('/my_recipes', (req, res) => {
     //let myRecipes = UserDataStuff.filter(recipe => recipe.userId === req.session.userId);
 
-    knex.select().from("recipes").where("author_id", logged_in_user_id)
+    knex.select().from("recipes").where("author_id", 1)
         .then((data) => {
             res.status(201).json(data)
         })

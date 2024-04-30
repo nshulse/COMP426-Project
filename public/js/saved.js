@@ -1,8 +1,9 @@
 const savedRecipesElement = document.getElementById('saved-recipes');
 
 fetch('/saved_recipes')
-  .then(response => response.json())
+  .then(response => {console.log(response); response.json()})
   .then(data => {
+    console.log(data);
       data.forEach(recipe => {
           console.log(recipe.ingredients)
           const recipeElement = document.createElement('div');
