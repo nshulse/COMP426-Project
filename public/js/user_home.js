@@ -37,10 +37,22 @@ fetch('/user_recipes')
             save.innerText = 'Save Recipe';
             save.data = recipe;
 
+            console.log(recipe.id)
+
+
             save.addEventListener('click', () => {
                 if(save.innerText == 'Save Recipe'){
+                    //TODO: Save recipe
+                    console.log("saving")
+                    fetch('/save_recipe', {method: "post", body: JSON.stringify({"recipe_id": recipe.id})})
+                    .then(response => {
+                        if(response.ok) {
+                            console.log("save worked")
+                        }
+                    })
                     save.innerText = 'Unsave Recipe';
                 } else {
+                    //TODO: unsave recipe
                     save.innerText = 'Save Recipe';
                 }
             });

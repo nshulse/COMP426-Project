@@ -7,6 +7,10 @@ const knex = require('knex')({
     },
   });
 
+const bodyParser = require('body-parser')
+
+const jsonParser = bodyParser.json()
+
 
 const app = express()
 const port = 3000
@@ -34,23 +38,34 @@ app.get('/saved.html', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/saved.html'));
   });
 
-  app.post('/save_recipe', (req, res) => {
-    const recipe = req.body.recipe;
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json())
+app.post('/save_recipe', jsonParser, (req, res) => {
 
-    if(!logged_in_username) {
+    console.log("save api start")
+
+    console.log(req.body)
+
+    if(!logged_in_user_id) {
         res.sendStatus(403)
     }
 
-    knex("accounts").where("id", logged_in_user_id).then((data) => {
-        data[0]["saved_recipes"].push(recipe.id)
-    })
+    knex("saved_recipes").insert({user_id: logged_in_user_id, recipe_id: req.body.id})
+        .then((data) => {
+            res.sendStatus(201).json(data)
+        })
 
-    //savedRecipes.push(recipe);
-    res.sendStatus(200);
   });
 
 app.get('/saved_recipes', (req, res) => {
-    res.json({ recipes: savedRecipes });
+    if(!logged_in_user_id) {
+        res.sendStatus(403)
+    }
+    knex("saved_recipes").where("user_id", logged_in_user_id)
+        .then((data) => {
+            res.sendStatus(201).json(data)
+        })
+    
 });
 
 app.post('/sign_in', (req, res) => {
@@ -192,6 +207,14 @@ app.post('/add_recipe', upload.single('image'), (req, res) => {
 // test function which returns all the accounts in database
 app.get('/test', (req, res) => {
     knex.select().from("accounts")
+        .then((data) => {
+            res.status(201).json(data)
+        })
+})
+
+
+app.get('/test_saved', (req, res) => {
+    knex.select().from("saved_recipes")
         .then((data) => {
             res.status(201).json(data)
         })
