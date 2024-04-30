@@ -164,12 +164,11 @@ app.post('/add_recipe', upload.single('image'), (req, res) => {
         instructions,
         imageUrl
     };
+
+    let author_id
     
     if(logged_in_user_id) {
-    knex("accounts").where("id", logged_in_user_id)
-        .then((data) => {
-            let author_id = logged_in_user_id
-        })
+        author_id = logged_in_user_id
     }
     else {
         author_id = null
