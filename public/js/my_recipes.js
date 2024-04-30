@@ -3,7 +3,9 @@ const myRecipesListElement = document.getElementById('my-recipes-list');
 fetch('/my_recipes')
     .then(response => response.json())
     .then(data => {
-        data.recipes.forEach(recipe => {
+        console.log(data)
+        data.forEach(recipe => {
+            console.log(recipe)
             const recipeElement = document.createElement('div');
             recipeElement.classList.add('recipe');
             recipeElement.classList.add('my-recipe')

@@ -96,11 +96,12 @@ app.get('/user_recipes', (req, res) => {
 app.get('/my_recipes', (req, res) => {
     //let myRecipes = UserDataStuff.filter(recipe => recipe.userId === req.session.userId);
 
-
-
-    let myRecipes = userRecipes;
-    res.json({ recipes: myRecipes });
+    knex.select().from("recipes").where("author_id", logged_in_user_id)
+        .then((data) => {
+            res.status(201).json(data)
+        })
 });
+    
 
 app.post('/create_account', (req, res) => {
     let username = req.body.username
