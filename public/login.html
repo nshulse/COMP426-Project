@@ -5,6 +5,19 @@
         <title>Pending Title</title>
         <link rel="stylesheet" href="/css/styles.css">
     </head>
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            if (error === 'incorrect') {
+                alert("Incorrect password");
+            } else if (error === 'not_found') {
+                alert("Account doesn't exist");
+            } else if (error === 'internal_error') {
+                alert("Internal server error");
+            }
+        };
+    </script>
     <h1 class="center text">
         [COMP 426 Final Project]
     </h1>

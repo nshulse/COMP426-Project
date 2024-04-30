@@ -68,7 +68,8 @@ app.post('/sign_in', (req, res) => {
                 }
                 else {
                     //TODO: Incorrect password
-                    console.log("incorrect password")
+                    console.log("Incorrect password");
+                    res.redirect('/login.html?error=incorrect');
                 }
             }
 
@@ -76,6 +77,7 @@ app.post('/sign_in', (req, res) => {
                 //Account doesn't exist
                 // TODO: Raise error
                 console.log("error account doesnt exist")
+                res.redirect('/login.html?error=not_found');
                     }
                 })
 
@@ -111,6 +113,7 @@ app.post('/create_account', (req, res) => {
     if (password !== re_typed_password) {
         //TODO: send error
         console.log("passwords do not match")
+        res.redirect('/new_account.html?error=password_mismatch');
     }
     else {
 
@@ -119,6 +122,7 @@ app.post('/create_account', (req, res) => {
             if (data[0]) {
                 //TODO: Raise error
                 console.log("username already exists error")
+                res.redirect('/new_account.html?error=username_exists');
                 
             }
             else {
