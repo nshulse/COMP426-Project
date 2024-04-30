@@ -34,24 +34,6 @@ app.get('/saved.html', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/saved.html'));
   });
 
-  app.post('/save_recipe', (req, res) => {
-    const recipe = req.body.recipe;
-
-    if(!logged_in_username) {
-        res.sendStatus(403)
-    }
-
-    knex("accounts").where("id", logged_in_user_id).then((data) => {
-        data[0]["saved_recipes"].push(recipe.id)
-    })
-
-    //savedRecipes.push(recipe);
-    res.sendStatus(200);
-  });
-
-// app.get('/saved_recipes', (req, res) => {
-//     res.json({ recipes: savedRecipes });
-// });
 
 app.post('/sign_in', (req, res) => {
     let username = req.body.username
@@ -88,27 +70,32 @@ app.post('/sign_in', (req, res) => {
     //res.redirect("/login.html")
 })
 
-//TODO: EDIT SO THAT WE HAVE THIS INSERT FOR A SPECIFIC USER
 app.post('/add_saved_recipe', (req, res) => {
     let recipe_id = req.body.rec_id;
-    console.log(logged_in_user_id);
-    console.log(recipe_id);
-    const ins = {
-        user_id: 1,
-        recipe_id: recipe_id
-    }
-    console.log(ins);
-    knex("saved_recipes").insert(ins).then(() => {
-        res.status(201);
-    })
-});
 
-//TODO: EDIT SO THAT WE HAVE THIS INSERT FOR A SPECIFIC USER
+    let already_saved
+    
+    knex("saved_recipes").where("user_id", logged_in_user_id).where("recipe_id", recipe_id)
+        .then((data) => {
+            if (data[0]) {
+                console.log("already saved")
+                res.redirect('/user_home.html?error=already_saved')
+            }
+            else {
+                knex("saved_recipes").insert({user_id: logged_in_user_id, recipe_id: recipe_id}).then(() => {
+                    res.status(201);
+            })
+        }
+    })
+})
+
+
 app.get('/saved_recipes', (req, res) => {
     knex('saved_recipes').join('recipes', 'saved_recipes.recipe_id', '=', 'recipes.id')
-        .select("recipes.*")
-        .where('saved_recipes.user_id', "=", 'jrindla')
-        .then(recipes => {
+        .select()  //"recipes.*"
+        .where("user_id", logged_in_user_id)
+        .then((recipes) => {
+            console.log(recipes)
             res.status(200).json(recipes);
         })
         .catch(err => {
@@ -132,7 +119,7 @@ app.get('/user_recipes', (req, res) => {
 app.get('/my_recipes', (req, res) => {
     //let myRecipes = UserDataStuff.filter(recipe => recipe.userId === req.session.userId);
 
-    knex.select().from("recipes").where("author_id", 1)
+    knex.select().from("recipes").where("author_id", logged_in_user_id)
         .then((data) => {
             res.status(201).json(data)
         })
@@ -221,6 +208,15 @@ app.post('/add_recipe', upload.single('image'), (req, res) => {
             res.sendStatus(201)
         })
 });
+
+
+// test function which returns saved recipes for account id 1
+app.get('/test_saved_recipes', (req, res) => {
+    knex.select().from("saved_recipes").where("user_id", 1)
+        .then((data) => {
+            res.status(201).json(data)
+        })
+})
 
 // test function which returns all the accounts in database
 app.get('/test', (req, res) => {

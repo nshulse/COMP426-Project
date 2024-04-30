@@ -1,7 +1,7 @@
 const savedRecipesElement = document.getElementById('saved-recipes');
 
 fetch('/saved_recipes')
-  .then(response => {console.log(response); response.json()})
+.then(response => response.json())
   .then(data => {
     console.log(data);
       data.forEach(recipe => {
@@ -35,7 +35,7 @@ fetch('/saved_recipes')
           buttons.style = 'display: flex; justify-content: center';
 
           let save = document.createElement('button')
-          save.innerText = 'Save Recipe';
+          save.innerText = 'Unsave Recipe';
           save.data = recipe;
 
           save.addEventListener('click', () => {
@@ -50,7 +50,7 @@ fetch('/saved_recipes')
 
           recipeElement.appendChild(buttons);
 
-          features.appendChild(recipeElement);
+          savedRecipesElement.appendChild(recipeElement);
       });
   })
   .catch(error => {
