@@ -11,4 +11,7 @@ db.run('CREATE TABLE saved_recipes(id INTEGER PRIMARY KEY, user_id INTEGER, reci
 
 
 // Resets table
-//db.run('DELETE FROM accounts')
+//db.run('DELETE accounts')
+
+// Deletes table
+//db.run("DROP TABLE recipes")

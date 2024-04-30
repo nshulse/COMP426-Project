@@ -12,8 +12,11 @@ const app = express()
 const port = 3000
 const path = require('path')
 const multer = require('multer');
+
+let logged_in_user_id
 let savedRecipes = []
 let userRecipes = []
+
 app.use(express.static(path.join(__dirname, '/public')))
 
 app.use(express.urlencoded({ extended: true }))
@@ -33,7 +36,16 @@ app.get('/saved.html', (req, res) => {
 
   app.post('/save_recipe', (req, res) => {
     const recipe = req.body.recipe;
-    savedRecipes.push(recipe);
+
+    if(!logged_in_username) {
+        res.sendStatus(403)
+    }
+
+    knex("accounts").where("id", logged_in_user_id).then((data) => {
+        data[0]["saved_recipes"].push(recipe.id)
+    })
+
+    //savedRecipes.push(recipe);
     res.sendStatus(200);
   });
 
@@ -51,6 +63,7 @@ app.post('/sign_in', (req, res) => {
                 if (data[0]["password"] === password) {
                     // TODO: Log user in
                     console.log("log in")
+                    logged_in_user_id = data[0]["id"]
                     res.redirect('/user_home.html');
                 }
                 else {
@@ -74,11 +87,17 @@ app.post('/sign_in', (req, res) => {
 })
 //This API is used to get a list of all recipes that users have added
 app.get('/user_recipes', (req, res) => {
-    res.json({ recipes: userRecipes });
+    knex.select().from("recipes")
+        .then((data) => {
+            res.status(201).json(data)
+        })
 });
 //This API is used to get a list of all recipes the currntly logged in user has added. I using a stub implementiaton for now since the backend is not ready yet - Niyaz.
 app.get('/my_recipes', (req, res) => {
     //let myRecipes = UserDataStuff.filter(recipe => recipe.userId === req.session.userId);
+
+
+
     let myRecipes = userRecipes;
     res.json({ recipes: myRecipes });
 });
@@ -145,9 +164,23 @@ app.post('/add_recipe', upload.single('image'), (req, res) => {
         instructions,
         imageUrl
     };
-    userRecipes.push(newRecipe);
-    console.log('New recipe added:', newRecipe);
-    res.sendStatus(200);
+    
+    if(logged_in_user_id) {
+    knex("accounts").where("id", logged_in_user_id)
+        .then((data) => {
+            let author_id = logged_in_user_id
+        })
+    }
+    else {
+        author_id = null
+    }
+
+    knex("recipes").insert({author_id: author_id, 
+        title:title, summary: summary, description: description, ingredients: ingredients, 
+        instructions: instructions, imageUrl: imageUrl})
+        .then((data) => {
+            res.sendStatus(201)
+        })
 });
 
 // test function which returns all the accounts in database
@@ -155,6 +188,16 @@ app.get('/test', (req, res) => {
     knex.select().from("accounts")
         .then((data) => {
             res.status(201).json(data)
+        })
+})
+
+
+// test 
+app.get('/test_a', (req, res) => {
+    knex("accounts").where("username", "a")
+        .then((data) => {
+            console.log(JSON.stringify(data[0]["saved_recipes"]))
+            res.json(data[0]["saved_recipes"])
         })
 })
 
