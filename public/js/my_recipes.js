@@ -28,6 +28,24 @@ fetch('/my_recipes')
                 <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Ingredients:</strong> ${ingredients_text}</p>
                 <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Instructions:</strong> ${recipe.instructions}</p>
             `;
+
+            let buttons = document.createElement('div')
+
+            buttons.style = 'display: flex; justify-content: center';
+
+            let update = document.createElement('button')
+            update.innerText = 'Update Recipe';
+            update.style = 'margin-right: 20px';
+            update.data = recipe;
+            let del = document.createElement('button')
+            del.innerText = 'Delete Recipe';
+            del.data = recipe;
+
+            buttons.appendChild(update);
+            buttons.appendChild(del)
+
+            recipeElement.appendChild(buttons);
+
             myRecipesListElement.appendChild(recipeElement);
         });
     })
