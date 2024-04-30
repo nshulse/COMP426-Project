@@ -37,6 +37,11 @@ fetch('/my_recipes')
             update.innerText = 'Update Recipe';
             update.style = 'margin-right: 20px';
             update.data = recipe;
+            
+            update.addEventListener('click', () => {
+                window.location.href = 'recipe_update.html';
+            });
+
             let del = document.createElement('button')
             del.innerText = 'Delete Recipe';
             del.data = recipe;
