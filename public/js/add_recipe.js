@@ -10,8 +10,8 @@ addIngredientButton.addEventListener('click', () => {
     ingredientField.style = 'display: flex; align-items: center; justify-content: center;';
     ingredientField.innerHTML = `
         <input type="text" name="ingredientName" placeholder="Ingredient Name" required style="height: 16px;">
-        <input type="number" name="ingredientPortion" placeholder="Portion" style="height: 16px;">
-        <input type="text" name="ingredientUnit" placeholder="Unit" style="height: 16px;">
+        <input type="number" name="ingredientPortion" placeholder="Portion" required style="height: 16px;">
+        <input type="text" name="ingredientUnit" placeholder="Unit" required style="height: 16px;">
     `;
     height_px += 22;
     border.style.height = height_px + 'px';
