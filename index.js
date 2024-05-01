@@ -96,6 +96,23 @@ app.put('/account_password', (req, res) => {
 })
 
 
+app.delete('/recipe', (req, res) => {
+    let recipe_id = req.body.recipe_id
+    knex("recipes").where("id", recipe_id).del()
+        .then((data) => {
+            res.status(201).json(data)
+        })
+})
+
+app.delete('/unsave_recipe', (req, res) => {
+    let recipe_id = req.body.recipe_id
+    knex("saved_recipes").where("recipe_id", recipe_id).del()
+        .then((data) => {
+            res.status(201).json(data)
+        })
+})
+
+
 
 app.post('/add_saved_recipe', (req, res) => {
     let recipe_id = req.body.rec_id;
