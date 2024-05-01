@@ -1,9 +1,10 @@
 const features = document.getElementById('user-featured');
 
-fetch('/user_recipes')
+fetch('/featured_recipes')
     .then(response => response.json())
     .then(data => {
         data.forEach(recipe => {
+            console.log(recipe);
             console.log(recipe.ingredients);
             console.log(recipe.id);
             const recipeElement = document.createElement('div');

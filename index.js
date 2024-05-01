@@ -182,6 +182,22 @@ app.get('/user_recipes', (req, res) => {
             res.status(201).json(data)
         })
 });
+
+app.get('/featured_recipes', (req, res) => {
+    knex.raw(
+        `SELECT * FROM recipes
+        WHERE id NOT IN (SELECT id FROM recipes WHERE author_id = ?)
+        AND id NOT IN (SELECT id FROM saved_recipes WHERE user_id = ?)`
+    , [logged_in_user_id, logged_in_user_id])
+    .then(result => {
+        console.log(result);
+        res.status(200).json(result);
+    })
+    .catch(err => {
+        console.error(err);
+    });
+});
+
 //This API is used to get a list of all recipes the currntly logged in user has added. I using a stub implementiaton for now since the backend is not ready yet - Niyaz.
 app.get('/my_recipes', (req, res) => {
     //let myRecipes = UserDataStuff.filter(recipe => recipe.userId === req.session.userId);
