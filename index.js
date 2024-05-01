@@ -117,7 +117,7 @@ app.delete('/recipe', (req, res) => {
     let recipe_id = req.body.recipe_id
     knex("recipes").where("id", recipe_id).del()
         .then((data) => {
-            res.status(201).json(data)
+            res.status(201).json(data)})})
 
 app.delete('/recipe_r_table', (req, res) => {
     let r_id = req.body.recipe_id;
