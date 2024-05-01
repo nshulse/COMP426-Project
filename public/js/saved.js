@@ -21,6 +21,29 @@ fetch('/saved_recipes')
           });
           console.log(parsed);
 
+          let macros_text = {'Calories': 0, 'Total Fat (g)': 0, 'Saturated Fats (g)': 0, 'Protein (g)': 0, 
+                                'Sodium (mg)': 0, 'Potassium (mg)': 0, 'Cholestorol (mg)': 0, 'Carbohydrates (g)': 0,
+                                'Fiber (g)': 0, 'Sugar (g)': 0};
+            let parsed_macros = JSON.parse(recipe.nutrition);
+            parsed_macros.forEach(food => {
+                macros_text['Calories'] += food.calories;
+                macros_text['Total Fat (g)'] += food.fat_total_g;
+                macros_text['Saturated Fats (g)'] += food.fat_saturated_g;
+                macros_text['Protein (g)'] += food.protein_g;
+                macros_text['Sodium (mg)'] += food.sodium_mg;
+                macros_text['Potassium (mg)'] += food.potassium_mg;
+                macros_text['Cholestorol (mg)'] += food.cholesterol_mg;
+                macros_text['Carbohydrates (g)'] += food.carbohydrates_total_g;
+                macros_text['Fiber (g)'] += food.fiber_g;
+                macros_text['Sugar (g)'] += food.sugar_g;
+            })
+
+            let nutritionText = [];
+            Object.keys(macros_text).forEach(key => {
+                nutritionText.push(key + ': ' + macros_text[key]);
+            })
+            nutritionText = nutritionText.join("; ");
+
           recipeElement.innerHTML = `
               <h2 style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">${recipe.title}</h2>
               <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Author:</strong> ${recipe.authorName}</p>
@@ -29,6 +52,7 @@ fetch('/saved_recipes')
               <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Description:</strong> ${recipe.description}</p>
               <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Ingredients:</strong> ${ingredients_text}</p>
               <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Instructions:</strong> ${recipe.instructions}</p>
+              <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Nutritional Info:</strong> ${nutritionText}</p>
           `;
 
           let buttons = document.createElement('div')
