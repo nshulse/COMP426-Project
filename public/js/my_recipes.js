@@ -32,15 +32,6 @@ fetch('/my_recipes')
 
             buttons.style = 'display: flex; justify-content: center';
 
-            let update = document.createElement('button')
-            update.innerText = 'Update Recipe';
-            update.style = 'margin-right: 20px';
-            update.data = recipe;
-            
-            update.addEventListener('click', () => {
-                window.location.href = 'recipe_update.html';
-            });
-
             let del = document.createElement('button')
             del.innerText = 'Delete Recipe';
             del.data = recipe;
@@ -52,8 +43,6 @@ fetch('/my_recipes')
             });
 
             //
-
-            buttons.appendChild(update);
             buttons.appendChild(del)
 
             recipeElement.appendChild(buttons);
