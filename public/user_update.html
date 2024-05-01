@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>Pending Title</title>
         <link rel="stylesheet" href="/css/styles.css">
+        <script type="module" src="js/user_update.js"></script>
     </head>
     <div class="container">
         <div class="menu">
@@ -25,7 +26,7 @@
                 <td style="font-size: 20px;">New username:</td>
                 <td>
                     <div>
-                        <input type="password" name="password" id="pass_newacct">
+                        <input name="password" id="user_newacct">
                     </div>
                 </td>
             </tr>
@@ -33,13 +34,13 @@
                 <td style="font-size: 20px;">Re-type new username:</td>
                 <td>
                     <div>
-                        <input type="password" name="re_typed_password" id="pass_retype_newacct">
+                        <input name="re_typed_password" id="user_retype_newacct">
                     </div>
                 </td>
             </tr>
         </table>
         <div class="center" style="margin-top: 15px;">
-            <button id="create-button">Update Username</button>
+            <button id="user-edit-button">Update Username</button>
         </div>
     </div>
     <div id="update-account-box" style="margin-top: 20px;">
@@ -65,7 +66,7 @@
             </tr>
         </table>
         <div class="center" style="margin-top: 15px;">
-            <button id="create-button">Update Password</button>
+            <button id="pass-edit-button">Update Password</button>
         </div>
     </div>
 </html>
