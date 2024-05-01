@@ -4,7 +4,7 @@ fetch('/my_recipes')
     .then(response => response.json())
     .then(data => {
         data.forEach(recipe => {
-            console.log(recipe.ingredients)
+            console.log(recipe);
             const recipeElement = document.createElement('div');
             recipeElement.classList.add('recipe');
             recipeElement.classList.add('my-recipe')
@@ -18,7 +18,6 @@ fetch('/my_recipes')
                 let unit = ingredient.unit
                 ingredients_text.push(' ' + portion + ' ' + unit + ' of ' + name + ' ')
             });
-            console.log(parsed)
 
             recipeElement.innerHTML = `
                 <h2 style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">${recipe.title}</h2>
@@ -47,8 +46,12 @@ fetch('/my_recipes')
             del.data = recipe;
 
             del.addEventListener('click', () => {
-                window.location.href = 'recipe_delete.html';
+                fetch('/recipe_r_table', {method: "DELETE", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({recipe_id: recipe.id})})
+                .then(fetch('/recipe_s_table', {method: "DELETE", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({recipe_id: recipe.id})}))
+                .then(recipeElement.style.display = 'none');
             });
+
+            //
 
             buttons.appendChild(update);
             buttons.appendChild(del)

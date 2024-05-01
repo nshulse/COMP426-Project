@@ -96,13 +96,36 @@ app.put('/account_password', (req, res) => {
 })
 
 
-app.delete('/recipe', (req, res) => {
-    let recipe_id = req.body.recipe_id
-    knex("recipes").where("id", recipe_id).del()
-        .then((data) => {
-            res.status(201).json(data)
+app.delete('/recipe_r_table', (req, res) => {
+    let r_id = req.body.recipe_id;
+    console.log(r_id);
+    knex("recipes")
+        .where("id", r_id)
+        .del()
+        .then(() => {
+            res.status(201).json({message: "Recipe deleted succesfully"});
         })
-})
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({error: "Error deleting recipe."})
+        });
+});
+
+app.delete('/recipe_s_table', (req, res) => {
+    let r_id = req.body.recipe_id;
+    console.log(r_id);
+    knex("saved_recipes")
+        .where("recipe_id", r_id)
+        .del()
+        .then(() => {
+            res.status(201).json({message: "Recipe deleted succesfully"});
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({error: "Error deleting recipe."})
+        });
+});
+
 
 app.delete('/unsave_recipe', (req, res) => {
     let recipe_id = req.body.recipe_id
