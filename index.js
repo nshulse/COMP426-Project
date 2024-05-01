@@ -96,6 +96,22 @@ app.put('/account_password', (req, res) => {
 })
 
 
+app.get('/nutrition', (req, res) => {
+    let ingredient = req.body.ingredient
+    fetch('https://api.api-ninjas.com/v1/nutrition?query=' + ingredient, 
+    {method: 'GET',
+    headers: {'X-Api-Key': 'DJJ3SD2cm9kKhEVpxPx8AQ==d1DRxSkfEV957ewm'},
+    contentType: 'application/json'
+        })
+        .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                res.json(data)
+            })
+            
+})
+
+
 app.delete('/recipe', (req, res) => {
     let recipe_id = req.body.recipe_id
     knex("recipes").where("id", recipe_id).del()
@@ -204,6 +220,11 @@ app.post('/create_account', (req, res) => {
     //res.sendFile(__dirname + '/public' + '/new_account.html')
 })
 
+
+
+
+
+
 const upload = multer({ dest: path.join(__dirname, 'public', 'uploads') });
 app.use(express.static('public'));
 app.post('/add_recipe', upload.single('image'), (req, res) => {
@@ -245,12 +266,61 @@ app.post('/add_recipe', upload.single('image'), (req, res) => {
         author_id = null
     }
 
-    knex("recipes").insert({author_id: author_id, 
-        title:title, summary: summary, description: description, ingredients: ingredients, 
-        instructions: instructions, imageUrl: imageUrl})
-        .then((data) => {
-            res.sendStatus(201)
-        })
+    let ingredients_text = []
+    let parsed = JSON.parse(ingredients)
+
+            parsed.forEach(ingredient => {
+                let name = ingredient.name
+                let portion = ingredient.portion
+                let unit = ingredient.unit
+                ingredients_text.push(' ' + portion + ' ' + unit + ' of ' + name + ' ')
+            });
+
+        let nutrition_array = []
+
+            let promises = ingredients_text.map(ingredient => {
+                return fetch('https://api.api-ninjas.com/v1/nutrition?query=' + ingredient, {
+                    method: 'GET',
+                    headers: {
+                        'X-Api-Key': 'DJJ3SD2cm9kKhEVpxPx8AQ==d1DRxSkfEV957ewm'
+                    },
+                    contentType: 'application/json'
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    console.log("Data[0]:", data[0]);
+                    return data[0]
+                })
+                .catch(error => {
+                    console.error('Error fetching or processing data:', error);
+                    return null;
+                });
+            });
+
+            Promise.all(promises)
+    .then(nutritionData => {
+        nutritionData.forEach(data => {
+            if (data) {
+                nutrition_array.push(data);
+            }
+        });
+        console.log("nutrition_array:", nutrition_array);
+        let nutrition_string = JSON.stringify(nutrition_array);
+
+        console.log(nutrition_string)
+
+        knex("recipes").insert({author_id: author_id, 
+            title:title, summary: summary, description: description, ingredients: ingredients, nutrition: nutrition_string, 
+            instructions: instructions, imageUrl: imageUrl})
+            .then((data) => {
+                res.sendStatus(201)
+            })
+    
+    })
+    .catch(error => {
+        console.error('Error fetching nutrition data for ingredients:', error);
+    });
+
 });
 
 
