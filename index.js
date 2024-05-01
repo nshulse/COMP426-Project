@@ -96,6 +96,7 @@ app.put('/account_password', (req, res) => {
 })
 
 
+
 app.get('/nutrition', (req, res) => {
     let ingredient = req.body.ingredient
     fetch('https://api.api-ninjas.com/v1/nutrition?query=' + ingredient, 
@@ -117,8 +118,38 @@ app.delete('/recipe', (req, res) => {
     knex("recipes").where("id", recipe_id).del()
         .then((data) => {
             res.status(201).json(data)
+
+app.delete('/recipe_r_table', (req, res) => {
+    let r_id = req.body.recipe_id;
+    console.log(r_id);
+    knex("recipes")
+        .where("id", r_id)
+        .del()
+        .then(() => {
+            res.status(201).json({message: "Recipe deleted succesfully"});
+
         })
-})
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({error: "Error deleting recipe."})
+        });
+});
+
+app.delete('/recipe_s_table', (req, res) => {
+    let r_id = req.body.recipe_id;
+    console.log(r_id);
+    knex("saved_recipes")
+        .where("recipe_id", r_id)
+        .del()
+        .then(() => {
+            res.status(201).json({message: "Recipe deleted succesfully"});
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({error: "Error deleting recipe."})
+        });
+});
+
 
 app.delete('/unsave_recipe', (req, res) => {
     let recipe_id = req.body.recipe_id
@@ -175,14 +206,40 @@ app.get('/user_recipes', (req, res) => {
             res.status(201).json(data)
         })
 });
+
+app.get('/featured_recipes', (req, res) => {
+    knex.raw(
+        `SELECT * FROM recipes
+        WHERE id NOT IN (SELECT id FROM recipes WHERE author_id = ?)
+        AND id NOT IN (SELECT id FROM saved_recipes WHERE user_id = ?)`
+    , [logged_in_user_id, logged_in_user_id])
+    .then(result => {
+        console.log(result);
+        res.status(200).json(result);
+    })
+    .catch(err => {
+        console.error(err);
+    });
+});
+
 //This API is used to get a list of all recipes the currntly logged in user has added. I using a stub implementiaton for now since the backend is not ready yet - Niyaz.
 app.get('/my_recipes', (req, res) => {
     //let myRecipes = UserDataStuff.filter(recipe => recipe.userId === req.session.userId);
-
-    knex.select().from("recipes").where("author_id", logged_in_user_id)
+    knex('recipes')
+        .join('accounts', 'recipes.author_id', '=', 'accounts.id')
+        .select('recipes.*', 'accounts.username as authorName')  // Select all recipe fields and the username, alias it as 'authorName'
+        .where("author_id", logged_in_user_id)
         .then((data) => {
-            res.status(201).json(data)
+            res.status(201).json(data);
         })
+        .catch(err => {
+            console.error(err);
+            res.status(500).send("Error retrieving user recipes");
+        });
+    // knex.select().from("recipes").where("author_id", logged_in_user_id)
+    //     .then((data) => {
+    //         res.status(201).json(data)
+    //     })
 });
     
 

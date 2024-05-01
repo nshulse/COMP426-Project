@@ -1,9 +1,10 @@
 const features = document.getElementById('user-featured');
 
-fetch('/user_recipes')
+fetch('/featured_recipes')
     .then(response => response.json())
     .then(data => {
         data.forEach(recipe => {
+            console.log(recipe);
             console.log(recipe.ingredients);
             console.log(recipe.id);
             const recipeElement = document.createElement('div');
@@ -23,6 +24,7 @@ fetch('/user_recipes')
 
             recipeElement.innerHTML = `
                 <h2 style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">${recipe.title}</h2>
+                <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Author:</strong> ${recipe.authorName}</p>
                 <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Summary:</strong> ${recipe.summary}</p>
                 <img src="${recipe.imageUrl}" alt="${recipe.title}" height = "300" />
                 <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><strong>Description:</strong> ${recipe.description}</p>
