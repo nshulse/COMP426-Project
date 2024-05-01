@@ -64,11 +64,15 @@ fetch('/saved_recipes')
           save.data = recipe;
 
           save.addEventListener('click', () => {
-              if(save.innerText == 'Save Recipe'){
-                  save.innerText = 'Unsave Recipe';
-              } else {
-                  save.innerText = 'Save Recipe';
-              }
+            fetch('/unsave_recipe', {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({rec_id: recipe.id})
+            })
+            .catch(error => {
+                console.error('Error removing recipe:', error);
+            });
+            recipeElement.style.display = 'none';
           });
 
           buttons.appendChild(save);

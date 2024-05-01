@@ -163,8 +163,6 @@ app.delete('/unsave_recipe', (req, res) => {
 
 app.post('/add_saved_recipe', (req, res) => {
     let recipe_id = req.body.rec_id;
-
-    let already_saved
     
     knex("saved_recipes").where("user_id", logged_in_user_id).where("recipe_id", recipe_id)
         .then((data) => {
